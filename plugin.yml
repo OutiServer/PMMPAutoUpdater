@@ -1,0 +1,6 @@
+name: AutoUpdater
+main: Ken_Cir\AutoUpdater\AutoUpdater
+description: A plugin that automatically updates PMMP
+author: Ken_Cir
+version: 1.0.0
+api: 4.0.0
