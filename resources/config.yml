@@ -1,0 +1,6 @@
+# Plugin Config Version
+version: 0.1.0
+
+autoUpdateEnable: true
+
+gitHash:
