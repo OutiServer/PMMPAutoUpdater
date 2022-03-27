@@ -7,27 +7,24 @@ namespace Ken_Cir\AutoUpdater\commands;
 use CortexPE\Commando\BaseCommand;
 use Ken_Cir\AutoUpdater\AutoUpdater;
 use pocketmine\command\CommandSender;
-use pocketmine\lang\Translatable;
 use pocketmine\plugin\Plugin;
-use pocketmine\Server;
 
 class CheckUpdateCommand extends BaseCommand
 {
     public function __construct(Plugin $plugin)
     {
-        parent::__construct($plugin, "checkupdate", "Checking PocketMine Update", []);
+        parent::__construct($plugin, "checkupdate", "PocketMineアップデートの確認", []);
     }
 
     protected function prepare(): void
     {
         $this->setPermission("outiserver.checkupdate.command");
         $this->setUsage("/checkupdate");
-        $this->setDescription(new Translatable("check_update_command_description"));
     }
 
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
-        $sender->sendMessage(AutoUpdater::getInstance()->getLanguageManager()->getDefaultLang()->translateString("check_update_command_success_message"));
+        $sender->sendMessage("更新を確認しています...");
         AutoUpdater::getInstance()->getServer()->getUpdater()->doCheck();
     }
 }
