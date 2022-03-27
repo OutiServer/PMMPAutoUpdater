@@ -4,3 +4,10 @@ description: A plugin that automatically updates PMMP
 author: Ken_Cir
 version: 1.0.0
 api: 4.0.0
+extensions:
+  - pcntl
+
+permissions:
+  outiserver.checkupdate.command:
+    description: CheckUpdate CommandPermissions
+    default: op

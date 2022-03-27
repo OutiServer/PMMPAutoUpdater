@@ -7,7 +7,9 @@
             "": "src/"
         }
     },
-    "require": {},
+    "require": {
+        "ext-pcntl": "*"
+    },
     "require-dev": {
         "pocketmine/pocketmine-mp": "4.2.4"
     }
