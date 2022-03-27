@@ -1,0 +1,8 @@
+parameters:
+    paths:
+        - src
+    level: 0
+    bootstrapFiles:
+        - vendor/autoload.php
+    scanDirectories:
+        - phar://../../virions/Commando.phar/src
