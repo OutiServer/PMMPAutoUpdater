@@ -23,7 +23,8 @@ class AutoUpdater extends PluginBase
     protected function onEnable(): void
     {
         $this->saveResource("config.yml");
-        $this->saveResource("lang/ja_JP.ini", true);
+        $this->saveResource("lang/jpn.ini", true);
+        $this->saveResource("lang/eng.ini", true);
 
         $this->languageManager = new LanguageManager($this);
 
