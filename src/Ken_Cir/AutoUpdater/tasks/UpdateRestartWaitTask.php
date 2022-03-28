@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Ken_Cir\AutoUpdater\tasks;
 
 use Ken_Cir\AutoUpdater\AutoUpdater;
-use pocketmine\lang\Translatable;
 use pocketmine\scheduler\Task;
 use pocketmine\Server;
 use function floor;
@@ -27,7 +26,7 @@ class UpdateRestartWaitTask extends Task
         $this->seconds = (int)$this->plugin->getConfig()->get("updateRestart-WaitSeconds", 600);
         $minutes = floor($this->seconds / 60);
         $seconds = $this->seconds - ($minutes * 60);
-        $this->plugin->getServer()->broadcastMessage(new Translatable("update_wait_minutes", [$minutes, $seconds]));
+        $this->plugin->getServer()->broadcastMessage("§e[警告] §fアップデートを行うため、{$minutes}分{$seconds}後サーバーは再起動されます");
     }
 
     public function onRun(): void
@@ -41,19 +40,26 @@ class UpdateRestartWaitTask extends Task
                 pcntl_exec("./start.sh");
             });
 
-            $this->plugin->getLogger()->info($this->plugin->getLanguageManager()->getDefaultLang()->translateString("server_restarted"));
+            $this->plugin->getLogger()->info("サーバーを再起動しています...");
             $this->plugin->getServer()->shutdown();
+            return;
         }
 
         if ($this->seconds < 1) {
-            $this->plugin->getServer()->getLogger()->info($this->plugin->getLanguageManager()->getDefaultLang()->translateString("server_restarted"));
+            register_shutdown_function(function () {
+                unlink(Server::getInstance()->getDataPath() . "PocketMine-MP.phar");
+                rename(Server::getInstance()->getDataPath() . "NewVersionPocketMine-MP.phar", Server::getInstance()->getDataPath(). "PocketMine-MP.phar");
+                pcntl_exec("./start.sh");
+            });
+
+            $this->plugin->getServer()->getLogger()->info("サーバーを再起動しています...");
             $this->plugin->getServer()->shutdown();
         }
         elseif ($this->seconds < 5) {
-            $this->plugin->getServer()->broadcastMessage(new Translatable("update_wait_seconds", [$this->seconds]));
+            $this->plugin->getServer()->broadcastMessage("§e[警告] §fアップデートを行うため、あと{$this->seconds}秒でサーバーは再起動されます");
         }
         elseif ($this->seconds % 60 === 0) {
-            $this->plugin->getServer()->broadcastMessage(new Translatable("update_wait_minutes", [$this->seconds / 60]));
+            $this->plugin->getServer()->broadcastMessage("§e[警告] §fアップデートを行うため、" . $this->seconds / 60 . "分後サーバーは再起動されます");
         }
     }
 }

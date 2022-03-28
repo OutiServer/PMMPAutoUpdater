@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Ken_Cir\AutoUpdater;
 
+use JsonException;
 use Ken_Cir\AutoUpdater\commands\CheckUpdateCommand;
-use Ken_Cir\AutoUpdater\language\LanguageManager;
 use pocketmine\plugin\PluginBase;
+use pocketmine\utils\Config;
 use pocketmine\utils\SingletonTrait;
 
 class AutoUpdater extends PluginBase
 {
     use SingletonTrait;
 
-    private LanguageManager $languageManager;
+    private Config $messages;
 
     protected function onLoad(): void
     {
@@ -24,10 +25,8 @@ class AutoUpdater extends PluginBase
     protected function onEnable(): void
     {
         $this->saveResource("config.yml");
-        $this->saveResource("lang/jpn.ini", true);
-        $this->saveResource("lang/eng.ini", true);
 
-        $this->languageManager = new LanguageManager($this);
+        $this->messages = new Config("{$this->getDataFolder()}messages.yml", Config::YAML);
 
         $this->getServer()->getCommandMap()->registerAll($this->getName(), [
             new CheckUpdateCommand($this)
@@ -37,13 +36,17 @@ class AutoUpdater extends PluginBase
 
     protected function onDisable(): void
     {
+        try {
+            $this->getConfig()->save();
+        } catch (JsonException) {
+        }
     }
 
     /**
-     * @return LanguageManager
+     * @return Config
      */
-    public function getLanguageManager(): LanguageManager
+    public function getMessages(): Config
     {
-        return $this->languageManager;
+        return $this->messages;
     }
 }
