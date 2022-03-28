@@ -13,7 +13,7 @@ class CheckUpdateCommand extends BaseCommand
 {
     public function __construct(Plugin $plugin)
     {
-        parent::__construct($plugin, "checkupdate", AutoUpdater::getInstance()->getMessages()->get("checkUpdateCommand.description"), []);
+        parent::__construct($plugin, "checkupdate", "PocketMineのアップデートを確認するTaskを実行する", []);
     }
 
     protected function prepare(): void
