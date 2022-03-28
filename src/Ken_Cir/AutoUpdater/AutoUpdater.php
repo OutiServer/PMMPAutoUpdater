@@ -25,7 +25,6 @@ class AutoUpdater extends PluginBase
     protected function onEnable(): void
     {
         $this->saveResource("config.yml");
-        $this->saveResource("messages.yml", true);
 
         $this->messages = new Config("{$this->getDataFolder()}messages.yml", Config::YAML);
 
