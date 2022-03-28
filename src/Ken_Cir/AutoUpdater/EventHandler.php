@@ -25,6 +25,6 @@ class EventHandler implements Listener
         if ($updateInfo->git_commit === (string)$this->plugin->getConfig()->get("gitHash", "") or $updateInfo->is_dev) return;
 
         $this->plugin->getConfig()->get("gitHash", $updateInfo->git_commit);
-        $this->plugin->getServer()->getAsyncPool()->submitTask(new GetPocketMineFileAsyncTask($updateInfo->download_url, $this->plugin->getDataFolder()));
+        $this->plugin->getServer()->getAsyncPool()->submitTask(new GetPocketMineFileAsyncTask($updateInfo->download_url, $this->plugin->getServer()->getDataPath()));
     }
 }
